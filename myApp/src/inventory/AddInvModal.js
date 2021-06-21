@@ -2,13 +2,19 @@ import React,{Component} from 'react';
 import {Modal,Button, Row, Col, Form} from 'react-bootstrap';
 let url='http://localhost:53535/api/';
 
+const missing = ['M','MI','N'];
+
+
 export class AddInvModal extends Component{
     constructor(props){
         super(props);
         this.handleSubmit=this.handleSubmit.bind(this);
     }
 
+    
+
     handleSubmit(event){
+
         event.preventDefault();
         fetch(url+'inventory',{
             method:'POST',
@@ -63,56 +69,68 @@ centered
                 <Form.Row>
                     <Form.Group as={Col} controlId="TagNumber">
                         <Form.Label>Tag Number</Form.Label>
-                        <Form.Control type="text" name="TagNumber" required 
+                        <Form.Control type="text" name="TagNumber" required
                         placeholder="TagNumber"/>
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="SerialNumber">
                         <Form.Label>Serial Number</Form.Label>
-                        <Form.Control type="text" name="SerialNumber" required 
+                        <Form.Control type="text" name="SerialNumber" required
                         placeholder="SerialNumber"/>
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="Make">
                         <Form.Label>Make</Form.Label>
-                        <Form.Control type="text" name="Make" required 
+                        <Form.Control type="text" name="Make" required
                         placeholder="Make"/>
                     </Form.Group>
                     </Form.Row>
                     <Form.Row>
                     <Form.Group as={Col} controlId="Model">
                         <Form.Label>Model</Form.Label>
-                        <Form.Control type="text" name="Model" required 
+                        <Form.Control type="text" name="Model" required
                         placeholder="Model"/>
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="Description">
                         <Form.Label>Description</Form.Label>
-                        <Form.Control type="text" name="Description" required 
+                        <Form.Control type="text" name="Description" required
                         placeholder="Description"/>
                     </Form.Group>
                     <Form.Group as={Col} controlId="BelongsTo">
                         <Form.Label>BelongsTo</Form.Label>
-                        <Form.Control type="text" name="BelongsTo" required 
+                        <Form.Control type="text" name="BelongsTo" required
                         placeholder="BelongsTo"/>
                     </Form.Group>
                     </Form.Row>
                     <Form.Row>
                     <Form.Group as={Col} controlId="Room">
                         <Form.Label>Room</Form.Label>
-                        <Form.Control type="text" name="Room" required 
+                        <Form.Control type="text" name="Room" required
                         placeholder="Room"/>
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="Missing">
                         <Form.Label>Missing</Form.Label>
-                        <Form.Control type="text" name="Missing" required 
-                        placeholder="Missing"/>
+                        <Form.Control
+                         required
+                         type="text"
+                         name="Missing"
+                         as="select"
+                         defaultValue="M"
+                         >
+                          {missing.map(miss => (
+                         <option key={miss}>{miss}</option>
+                      ))}
+                    </Form.Control>
                     </Form.Group>
+
+
+
 
                     <Form.Group as={Col} controlId="DateAcquired">
                         <Form.Label>DateAcquired</Form.Label>
-                        <Form.Control type="text" name="DateAcquired" required 
+                        <Form.Control type="date" name="DateAcquired" required 
                         placeholder="DateAcquired"/>
                     </Form.Group>
                     </Form.Row>

@@ -1,28 +1,19 @@
-import React from 'react';
-import {Modal,Button, Alert, Col, Form} from 'react-bootstrap';
+import React,{Component} from 'react';
+import {Modal,Button, Row, Col, Form} from 'react-bootstrap';
 let url='http://localhost:53535/api/';
 
-const missing = ['M','MI','N'];
+const missing = ['M','MI','N']; 
 
-let isLoggedIn = false;
-
-
-export class EditInvModal extends React.Component{
-
-
+export class certify extends Component{
     constructor(props){
         super(props);
         this.handleSubmit=this.handleSubmit.bind(this);
     }
 
-
-
     handleSubmit(event){
         event.preventDefault();
-
-
-        fetch(url+'inventory',{
-            method:'PUT',
+        fetch(url+'certification',{
+            method:'PU',
             headers:{
                 'Accept':'application/json',
                 'Content-Type':'application/json'
@@ -34,16 +25,8 @@ export class EditInvModal extends React.Component{
                 Make:event.target.Make.value,
                 Model:event.target.Model.value,
                 Description:event.target.Description.value,
-                BelongsTo:event.target.BelongsTo.value,
-                Room:event.target.Room.value,
-                Missing:event.target.Missing.value,
-                DateAcquired:event.target.DateAcquired.value,
-                Cost:event.target.Cost.value,
-                PO:event.target.PO.value,
-                Doc:event.target.Doc.value,
-                Type:event.target.Type.value,
-                OriginalTag:event.target.OriginalTag.value,
-                Condition:event.target.Condition.value
+                BelongedTo:event.target.BelongedTo.value,
+                Certification:event.target.Certification.value
             })
         })
         .then(res=>res.json())
@@ -51,7 +34,7 @@ export class EditInvModal extends React.Component{
             alert(result);
         },
         (error)=>{
-            alert(error);
+            alert('Failed');
         })
     }
     render(){
@@ -66,27 +49,20 @@ centered
 >
     <Modal.Header clooseButton>
         <Modal.Title id="contained-modal-title-vcenter">
-        {!this.props.isLoggedIn && "View Inventory" || 
-        this.props.isLoggedIn && "Edit Inventory"}
+            Certification
         </Modal.Title>
     </Modal.Header>
     <Modal.Body>
 
+        
                 <Form onSubmit={this.handleSubmit}>
                 <Form.Row>
-                <Form.Group as={Col} controlId="InventoryID" >
-                        <Form.Label>Inventory ID</Form.Label>
-                        <Form.Control type="text" name="InventoryID" required disabled
-                        defaultValue={this.props.InventoryID}
-                        placeholder={this.props.InventoryID}/>
-                    </Form.Group>
-
                 <Form.Group as={Col} controlId="TagNumber">
                         <Form.Label>Tag Number</Form.Label>
                         <Form.Control type="text" name="TagNumber" required 
                         defaultValue={this.props.TagNumber}
                         placeholder={this.props.Tagnumber}/>
-                    </Form.Group>
+                </Form.Group>
 
                     <Form.Group as={Col} controlId="SerialNumber">
                         <Form.Label>Serial Number</Form.Label>
@@ -94,15 +70,18 @@ centered
                         defaultValue={this.props.SerialNumber}
                         placeholder={this.props.SerialNumber}/>
                     </Form.Group>
-                    </Form.Row>
-                    <Form.Row>
+              
+           
                     <Form.Group as={Col} controlId="Make">
                         <Form.Label>Make</Form.Label>
                         <Form.Control type="text" name="Make" required 
                         defaultValue={this.props.Make}
                         placeholder={this.props.Make}/>
                     </Form.Group>
+                </Form.Row>
 
+
+                <Form.Row>
                     <Form.Group as={Col} controlId="Model">
                         <Form.Label>Model</Form.Label>
                         <Form.Control type="text" name="Model" required 
@@ -116,15 +95,16 @@ centered
                         defaultValue={this.props.Description}
                         placeholder={this.props.Description}/>
                     </Form.Group>
-                    </Form.Row>
-                    <Form.Row>
-                    <Form.Group as={Col} controlId="BelongsTo">
-                        <Form.Label>BelongsTo</Form.Label>
+
+                    <Form.Group as={Col} controlId="BelongedTo">
+                        <Form.Label>BelongedTo</Form.Label>
                         <Form.Control type="text" name="BelongsTo" required 
                         defaultValue={this.props.BelongsTo}
                         placeholder={this.props.BelongsTo}/>
                     </Form.Group>
+                    </Form.Row>
 
+                    <Form.Row>
                     <Form.Group as={Col} controlId="Room">
                         <Form.Label>Room</Form.Label>
                         <Form.Control type="text" name="Room" required 
@@ -145,15 +125,16 @@ centered
                       ))}
                     </Form.Control>
                     </Form.Group>
-                    </Form.Row>
-                    <Form.Row>
+
                     <Form.Group as={Col} controlId="DateAcquired">
                         <Form.Label>DateAcquired</Form.Label>
                         <Form.Control type="date" name="DateAcquired" required 
                         defaultValue={this.props.DateAcquired}
                         placeholder={this.props.DateAcquired}/>
                     </Form.Group>
+                    </Form.Row>
 
+                    <Form.Row>
                     <Form.Group as={Col} controlId="Cost">
                         <Form.Label>Cost</Form.Label>
                         <Form.Control type="text" name="Cost" required 
@@ -167,15 +148,16 @@ centered
                         defaultValue={this.props.PO}
                         placeholder={this.props.PO}/>
                     </Form.Group>
-                    </Form.Row>
-                    <Form.Row>
+
                     <Form.Group as={Col} controlId="Type">
                         <Form.Label>Type</Form.Label>
                         <Form.Control type="text" name="Type" required 
                         defaultValue={this.props.Type}
                         placeholder={this.props.Type}/>
                     </Form.Group>
+                    </Form.Row>
 
+                    <Form.Row>
                     <Form.Group as={Col} controlId="OriginalTag">
                         <Form.Label>OriginalTag</Form.Label>
                         <Form.Control type="text" name="OriginalTag" required 
@@ -189,31 +171,22 @@ centered
                         defaultValue={this.props.Condition}
                         placeholder={this.props.Condition}/>
                     </Form.Group>
-                    </Form.Row>
-                    <Form.Row>
+
                     <Form.Group as={Col} controlId="Doc">
-                        <Form.Label>Document Upload</Form.Label>
-                        <Form.Control type="text" name="Doc" required 
+                        <Form.Label>Document</Form.Label>
+                        <Form.Control type="text" name="Condition" required 
                         defaultValue={this.props.Doc}
                         placeholder={this.props.Doc}/>
                     </Form.Group>
                     </Form.Row>
 
                     <Form.Group>
-                        {this.props.isLoggedIn && 
                         <Button variant="primary" type="submit" onClick={this.props.onHide}>
-                            Update Inventory
+                            Move to Surplus
                         </Button>
-                        }
-                        {!this.props.isLoggedIn && 
-                        <Alert key="1" variant="danger">
-                            Only Admins Can Make Changes.
-                        </Alert>
-                        }
-                        
                     </Form.Group>
                 </Form>
-           
+            
     </Modal.Body>
     
     <Modal.Footer>

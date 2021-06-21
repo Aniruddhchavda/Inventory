@@ -2,6 +2,8 @@ import React,{Component} from 'react';
 import {Modal,Button, Row, Col, Form} from 'react-bootstrap';
 let url='http://localhost:53535/api/';
 
+const missing = ['M','MI','N'];
+
 export class SurplusModal extends Component{
     constructor(props){
         super(props);
@@ -132,14 +134,21 @@ centered
 
                     <Form.Group as={Col} controlId="Missing">
                         <Form.Label>Missing</Form.Label>
-                        <Form.Control type="text" name="Missing" required 
-                        defaultValue={this.props.Missing}
-                        placeholder={this.props.Missing}/>
+                        <Form.Control
+                         required
+                         type="text"
+                         name="Missing"
+                         as="select"
+                         >
+                          {missing.map(miss => (
+                         <option key={miss}>{miss}</option>
+                      ))}
+                    </Form.Control>
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="DateAcquired">
                         <Form.Label>DateAcquired</Form.Label>
-                        <Form.Control type="text" name="DateAcquired" required 
+                        <Form.Control type="date" name="DateAcquired" required 
                         defaultValue={this.props.DateAcquired}
                         placeholder={this.props.DateAcquired}/>
                     </Form.Group>

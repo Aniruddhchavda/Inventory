@@ -3,9 +3,7 @@ import { Input, Segment} from "semantic-ui-react";
 import 'semantic-ui-css/semantic.min.css';
 import ReactTable from "react-table-6";
 import "react-table-6/react-table.css";
-import styled from 'styled-components';
-
-import {Button,ButtonToolbar} from 'react-bootstrap';
+import {Button,ButtonToolbar,ToggleButton } from 'react-bootstrap';
 import {AddInvModal} from './AddInvModal';
 import {EditInvModal} from './EditInvModal';
 import { SurplusModal } from './SurplusModal'
@@ -13,15 +11,8 @@ import { SurplusModal } from './SurplusModal'
 let url='http://localhost:53535/api/';
 
 
+
 export class Inventory extends React.Component {
-    refreshList(){
-        fetch(url+'inventory')
-        .then(response=>response.json())
-        .then(data1=>{
-            this.setState({
-                originalData:data1});
-        });
-    }
 
   constructor(props) {
     super(props);
@@ -32,23 +23,29 @@ export class Inventory extends React.Component {
       invs:[], 
       addModalShow:false, 
       editModalShow:false, 
-      surplusModalShow:false
+      surplusModalShow:false,
+      isLoggedIn:this.props.isLoggedIn,
+      checkboxChecked: false,
     };
   }
 
- 
+    refreshList(){
+        fetch(url+'inventory')
+        .then(response=>response.json())
+        .then(data1=>{
+            this.setState({
+                originalData:data1});
+        });
+    }
 
+ 
+  
+
+  
   componentDidMount() {
     this.refreshList();
-
     let editModalClose=()=>this.setState({editModalShow:false});
     let surplusModalClose=()=>this.setState({surplusModalShow:false});
-
-
-
-
-
-
 
     let columns = [
       {
@@ -103,16 +100,24 @@ export class Inventory extends React.Component {
       {
         Header: "Description",
         accessor: "Description",
-        width: 200,
+        width: 150,
         show: true,
         displayValue: "Description "
+      },
+
+      {
+        Header: "Certification",
+        accessor: "Certification",
+        width: 100,
+        show: false,
+        displayValue: "Certification "
       },
       {
         Header: "BelongsTo",
         accessor: "BelongsTo",
-        width: 150,
+        width: 120,
         show: true,
-        displayValue: " BelongsTo "
+        displayValue: "BelongsTo "
       },
       {
         Header: "DateAcquired",
@@ -166,7 +171,7 @@ export class Inventory extends React.Component {
       {
         Header: 'Actions',
         id: 'actions',
-        width: 320,
+        width: 250,
         Cell: ({ row }) => {
           return (
             <div>
@@ -188,14 +193,19 @@ export class Inventory extends React.Component {
         Type:row.Type,
         OriginalTag:row.OriginalTag,
         Condition:row.Condition,
-        Doc:row.Doc
+        Doc:row.Doc,
+        isLoggedIn:this.state.isLoggedIn
         })}>
-            View/Edit
+            {this.state.isLoggedIn &&
+             "View/Edit"
+            }
+            {!this.state.isLoggedIn &&
+             "View"
+            }
         </Button>
 
-        
 
-
+{ this.state.isLoggedIn && 
         <Button className="mr-2" variant="info"
     onClick={()=>this.setState({surplusModalShow:true,
       InventoryID:row.InventoryID,
@@ -216,14 +226,14 @@ export class Inventory extends React.Component {
       Doc:row.Doc
         })}>
             Surplus
-        </Button>
-
+        </Button>}
+    
+        { this.state.isLoggedIn && 
         <Button className="mr-2" variant="danger"
     onClick={()=>this.deleteInv(row.InventoryID)}>
             Delete
         </Button>
-
-
+        }
 
         <SurplusModal show={this.state.surplusModalShow}
         onHide={surplusModalClose}
@@ -263,11 +273,35 @@ export class Inventory extends React.Component {
         OriginalTag={this.state.OriginalTag}
         Condition={this.state.Condition}
         Doc={this.state.Doc}
+        isLoggedIn={this.state.isLoggedIn}
         />
+
 
             </div>
           );
         },
+      },
+      {
+        Header: "Status",
+        id: 'Status',
+        width: 100,
+        show: true,
+        accessor: "Status",
+        Cell: ({ row }) => {
+          return (
+            <div>
+            { this.state.isLoggedIn && 
+              <Button className="mr-2" variant=
+                      {row.Certification=='Verified' && "success" || 
+                      row.Certification=='Pending' && "warning" || 
+                      row.Certification=='Missing' && "danger"}
+                      value={row.Certification}>
+                  {row.Certification}
+              </Button>
+              }
+           </div>
+          )
+        }
       }
     ];
     this.setState({ columns });
@@ -288,7 +322,6 @@ deleteInv(TagNumber)
         })
     }
 }
-
 
   handleChange = event => {
     this.setState({ searchInput: event.target.value }, () => {
@@ -318,9 +351,7 @@ deleteInv(TagNumber)
 
 
   render() {
-    let {originalData, data, columns, searchInput, invs, InventoryID, TagNumber, SerialNumber, Make,
-         Model, Description, BelongsTo, Room, Missing , DateAcquired, Cost, PO , Doc, 
-         Type, OriginalTag, Condition }=this.state;
+    let {originalData, data, columns, searchInput }=this.state;
          let addModalClose=()=>this.setState({addModalShow:false});
     return (
       <div>
@@ -329,9 +360,11 @@ deleteInv(TagNumber)
               <Segment inverted>
               <div className="d-flex justify-content-between">
               <ButtonToolbar>
-                 <Button variant='outline-light' size='md'
+                {this.state.isLoggedIn && 
+                <Button variant='outline-light' size='md'
                  onClick={()=>this.setState({addModalShow:true})}>
                  Add Inventory</Button>
+                }
 
                  <AddInvModal show={this.state.addModalShow}
                 onHide={addModalClose}/>
@@ -346,7 +379,6 @@ deleteInv(TagNumber)
 
               </div>
              </Segment>
-
 
         <ReactTable
           data={data || originalData}
@@ -365,7 +397,7 @@ deleteInv(TagNumber)
             }
           ]}
         />
-
+        
       </div>
     );
 
