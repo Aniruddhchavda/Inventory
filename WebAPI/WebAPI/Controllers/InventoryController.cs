@@ -26,7 +26,7 @@ namespace WebAPI.Controllers
         public JsonResult Get()
         {
             string query = @"
-                    select InventoryID, TagNumber, SerialNumber, Make, Model, Description, BelongsTo, Room, Missing , DateAcquired, Cost, PO , Doc, Type, OriginalTag, Condition from dbo.Inventory";
+                    select InventoryID, TagNumber, SerialNumber, Make, Model, Description,Certification, BelongsTo, Room, Missing , DateAcquired, Cost, PO , Doc, Type, OriginalTag, Condition from dbo.Inventory";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
             SqlDataReader myReader;
