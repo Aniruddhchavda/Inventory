@@ -39,8 +39,30 @@ export class Inventory extends React.Component {
     }
 
  
-  
+  checkLogin()
+  {
+    return this.props.isLoggedIn;
+  }
 
+  checkWidth()
+  {
+    let {isLoggedIn} = this.state;
+    let width = 112;
+    if(this.checkLogin()){
+      width = 80;
+    }
+   return width;
+  }
+
+  checkActionWidth()
+  {
+    let {isLoggedIn} = this.state;
+    let width = 80;
+    if(this.checkLogin()){
+      width = 250;
+    }
+   return width;
+  }
   
   componentDidMount() {
     this.refreshList();
@@ -49,73 +71,128 @@ export class Inventory extends React.Component {
 
     let columns = [
       {
-            Header: "InventoryID",
+             Header: () => (
+              <div
+               style={{
+               textAlign:"left"
+               }}
+            >Inventory ID</div>),
             accessor: "InventoryID",
             width: 30,
             show: false,
             displayValue: "InventoryID"
       },
       {
-        Header: "TagNumber",
+        Header: () => (
+          <div
+           style={{
+           textAlign:"left"
+           }}
+        >Tag Number</div>),
         accessor: "TagNumber",
-        width: 90,
+        width: this.checkWidth(),
         show: true,
         displayValue: "TagNumber"
       },
       {
-        Header: "SerialNumber",
+        Header: () => (
+          <div
+           style={{
+           textAlign:"left"
+           }}
+        >Serial Number</div>),
         accessor: "SerialNumber",
-        width: 100,
+        width: this.checkWidth(),
         show: true,
         displayValue: "SerialNumber"
       },
       {
-        Header: "Make",
+        Header: () => (
+          <div
+           style={{
+           textAlign:"left"
+           }}
+        >Make</div>),
         accessor: "Make",
-        width: 100,
+        width: this.checkWidth(),
         show: true,
         displayValue: "Make"
       },
       {
-        Header: "Model",
+        Header: () => (
+          <div
+           style={{
+           textAlign:"left"
+           }}
+        >Model</div>),
         accessor: "Model",
-        width: 100,
+        width: this.checkWidth(),
         show: true,
         displayValue: "Model"
       },
       {
-        Header: "Room",
+        Header: () => (
+          <div
+           style={{
+           textAlign:"left"
+           }}
+        >Room</div>),
         accessor: "Room",
-        width: 60,
+        width: this.checkWidth(),
         show: true,
         displayValue: "Room"
       },
       {
-        Header: "Missing",
+        Header: () => (
+          <div
+           style={{
+           textAlign:"left"
+           }}
+        >Missing</div>),
         accessor: "Missing",
-        width: 30,
+        width: this.checkWidth(),
         show: true,
-        displayValue: "Missing"
+        displayValue: "Missing",
+        Cell: row => <div><span style={{color: "blue"}} title=
+        {row.value=="M" && "Missing" || 
+        row.value=="N" && "Not Missing" ||
+        row.value=="MI" && "Missing Information"}
+        >{row.value}</span></div>
       },
       {
-        Header: "Description",
+        Header: () => (
+          <div
+           style={{
+           textAlign:"left"
+           }}
+        >Description</div>),
         accessor: "Description",
-        width: 150,
+        width: this.checkWidth()+50,
         show: true,
         displayValue: "Description "
       },
 
       {
-        Header: "Certification",
+        Header: () => (
+          <div
+           style={{
+           textAlign:"left"
+           }}
+        >Certification</div>),
         accessor: "Certification",
         width: 100,
         show: false,
         displayValue: "Certification "
       },
       {
-        Header: "BelongsTo",
+        Header: () => (
+          <div
+           style={{
+           textAlign:"left"
+           }}
+        >Belongs To</div>),
         accessor: "BelongsTo",
-        width: 120,
+        width: this.checkWidth()+70,
         show: true,
         displayValue: "BelongsTo "
       },
@@ -169,13 +246,13 @@ export class Inventory extends React.Component {
         displayValue: "Doc "
       },
       {
-        Header: 'Actions',
+        Header: "Actions",
         id: 'actions',
-        width: 250,
+        width: this.checkActionWidth(),
         Cell: ({ row }) => {
           return (
             <div>
-        <Button className="mr-2" variant="info"
+        <Button className="mr-2" variant="outline-info"
         onClick={()=>this.setState({
         editModalShow:true,
         InventoryID:row.InventoryID,
@@ -196,17 +273,17 @@ export class Inventory extends React.Component {
         Doc:row.Doc,
         isLoggedIn:this.state.isLoggedIn
         })}>
-            {this.state.isLoggedIn &&
+            {this.checkLogin() &&
              "View/Edit"
             }
-            {!this.state.isLoggedIn &&
+            {!this.checkLogin() &&
              "View"
             }
         </Button>
 
 
-{ this.state.isLoggedIn && 
-        <Button className="mr-2" variant="info"
+{ this.checkLogin() && 
+        <Button className="mr-2" variant="outline-info"
     onClick={()=>this.setState({surplusModalShow:true,
       InventoryID:row.InventoryID,
       TagNumber:row.TagNumber,
@@ -229,7 +306,7 @@ export class Inventory extends React.Component {
         </Button>}
     
         { this.state.isLoggedIn && 
-        <Button className="mr-2" variant="danger"
+        <Button className="mr-2" variant="outline-danger"
     onClick={()=>this.deleteInv(row.InventoryID)}>
             Delete
         </Button>
@@ -282,10 +359,15 @@ export class Inventory extends React.Component {
         },
       },
       {
-        Header: "Status",
+        Header: () => (
+          <div
+           style={{
+           textAlign:"left"
+           }}
+        >Status</div>),
         id: 'Status',
-        width: 100,
-        show: true,
+        width: this.checkWidth(),
+        show: this.checkLogin(),
         accessor: "Status",
         Cell: ({ row }) => {
           return (

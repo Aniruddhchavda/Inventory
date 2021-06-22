@@ -22,11 +22,13 @@ namespace WebAPI.Controllers
             _configuration = configuration;
         }
 
+
+
         [HttpGet]
         public JsonResult Get()
         {
             string query = @"
-                    select * from dbo.Inventory where BelongsTo = 'Julian.hooker@ttu.edu' 
+                    select * from dbo.Inventory where BelongsTo = 'Ani.chavda@gmail.com'
                     ";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");

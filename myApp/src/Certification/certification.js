@@ -45,35 +45,35 @@ export class Certification extends React.Component {
       {
         Header: "TagNumber",
         accessor: "TagNumber",
-        width: 90,
+        width: 100,
         show: true,
         displayValue: "TagNumber"
       },
       {
         Header: "SerialNumber",
         accessor: "SerialNumber",
-        width: 100,
+        width: 140,
         show: true,
         displayValue: "SerialNumber"
       },
       {
         Header: "Make",
         accessor: "Make",
-        width: 100,
+        width: 140,
         show: true,
         displayValue: "Make"
       },
       {
         Header: "Model",
         accessor: "Model",
-        width: 100,
+        width: 140,
         show: true,
         displayValue: "Model"
       },
       {
         Header: "Description",
         accessor: "Description",
-        width: 200,
+        width: 220,
         show: true,
         displayValue: "Description "
       },
@@ -91,21 +91,21 @@ export class Certification extends React.Component {
         Cell: ({ row }) => {
           return (
          <div>
-        <Button className="mr-2" variant="info"
+        <Button className="mr-2" variant="outline-info"
     onClick={()=>
         this.certify(row.TagNumber,'Verified')
          }>
             Certify
         </Button>
 
-        <Button className="mr-2" variant="info"
+        <Button className="mr-2" variant="outline-info"
     onClick={()=>
         this.certify(row.TagNumber,'Missing')
          }>
             Missing
         </Button>
 
-        <Button className="mr-2" variant="info"
+        <Button className="mr-2" variant="outline-info"
     onClick={()=>
         this.certify(row.TagNumber,'Pending')
          }>

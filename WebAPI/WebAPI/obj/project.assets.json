@@ -670,11 +670,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\anich\\Desktop\\Inventory\\TTUS\\ReactJsCoreApi-main\\WebAPI\\WebAPI\\WebAPI.csproj",
+      "projectUniqueName": "C:\\Users\\anich\\Desktop\\Project2\\Inventory\\TTUS\\ReactJsCoreApi-main\\WebAPI\\WebAPI\\WebAPI.csproj",
       "projectName": "WebAPI",
-      "projectPath": "C:\\Users\\anich\\Desktop\\Inventory\\TTUS\\ReactJsCoreApi-main\\WebAPI\\WebAPI\\WebAPI.csproj",
+      "projectPath": "C:\\Users\\anich\\Desktop\\Project2\\Inventory\\TTUS\\ReactJsCoreApi-main\\WebAPI\\WebAPI\\WebAPI.csproj",
       "packagesPath": "C:\\Users\\anich\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\anich\\Desktop\\Inventory\\TTUS\\ReactJsCoreApi-main\\WebAPI\\WebAPI\\obj\\",
+      "outputPath": "C:\\Users\\anich\\Desktop\\Project2\\Inventory\\TTUS\\ReactJsCoreApi-main\\WebAPI\\WebAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\anich\\AppData\\Roaming\\NuGet\\NuGet.Config",
